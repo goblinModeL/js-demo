@@ -2,9 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>时间和计时器</title>
 </head>
-<body>111
-
+<body>
+<div style="width: 200px;height: 200px;display: inline-block">
+    <h1>时间</h1>
+    <h1 class="time"></h1>
+    <button onclick="clearInterval(count)">停止</button>
+    <button onclick="count=setInterval( ()=>{timer()},1000)">重新</button>
+</div>
+<div style="width: 400px;height: 200px;display: inline-block;margin-left: 200px">
+    <h1>计时器</h1>
+    <h1 class="time">00:00:00</h1>
+    <button onclick="if (begin===false) {  counts = setInterval(() => {  timer2() }, 1000)}">开始</button>
+    <button onclick="suspend=!suspend">暂停</button>
+    <button onclick="clears()">清除</button>
+</div>
 </body>
+<script type="text/javascript">
+    const date = new Date();
+    let H = 0, M = 0;
+    S = 0;
+    let suspend=false
+    let begin=false
+let counts
+    //简易时间
+    const timer = () => {
+        const date = new Date();
+
+        const Hours = date.getHours().toString().length > 1 ? date.getHours() : '0' + date.getHours(),
+            minutes = date.getMinutes().toString().length > 1 ? date.getMinutes() : '0' + date.getMinutes(),
+            Seconds = date.getSeconds().toString().length > 1 ? date.getSeconds() : '0' + date.getSeconds();
+        document.getElementsByClassName('time')[0].innerText =
+            Hours + ":" + minutes + ":" + Seconds;
+
+    }
+    let count = setInterval(() => {
+        timer()
+    }, 1000)
+    //计时器
+    const timer2 = () => {
+             begin=true;
+            suspend == false ? ++S : S;
+            S = S.toString().length > 1 ? S : '0' + S;
+            M = S == 60 ? (++M , S = 0) : M
+            H = M == 60 ? (++H, M = 0) : H
+            S = S.toString().length > 1 ? S : '0' + S;
+            M = M.toString().length > 1 ? M : '0' + M;
+            H = H.toString().length > 1 ? H : '0' + H;
+            document.getElementsByClassName('time')[1].innerText =
+                H + ":" + M + ":" + S;
+
+    }
+
+const clears=()=>{
+     H = 0, M = 0;S = 0;
+    clearInterval(counts);
+    begin=false;
+    document.getElementsByClassName('time')[1].innerText ="00:00:00";
+
+}
+
+</script>
 </html>
