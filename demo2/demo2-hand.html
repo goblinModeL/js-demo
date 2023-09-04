@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>实现图片转base64并预览</title>
+</head>
+<body>
+<input type="file" accept="image/*"></br>
+<button type="submit" name="11">提交</button>
+</body>
+<script>
+  var a=document.getElementsByTagName('input')[0]
+
+  a.addEventListener('change',function (){
+    console.log('okokok');
+    const{ files }=this//this是 ‘<input type="file" accept="image/*">’ 等价于 const files = this.files;
+
+    console.log(files)//对象
+
+    const f = files[0]//取出第一个对象
+    // console.log(URL.createObjectURL(f))//获取图片url
+    const img = document.createElement('img')//创建img标签
+    img.src=URL.createObjectURL(f)//地址写为图片url
+    img.style.width='100px'
+    document.body.append(img)//添加到html中
+
+  })
+  var b=document.getElementsByTagName('button')[0]
+  b.addEventListener('click',function (){
+    //图片转base64
+    const {files}=a
+    const f = files[0]//取出第一个对象
+    if(f==null){
+      alert("请先选择照片")
+      return 0;
+    }
+    console.log(f)
+    var img = new Image;
+    img.src=URL.createObjectURL(f)
+    img.onload = function (){
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+      var dataURL = canvas.toDataURL("image/"+ext);
+      console.log(1)
+      console.log(dataURL)
+    }
+  })
+</script>
+</html>
